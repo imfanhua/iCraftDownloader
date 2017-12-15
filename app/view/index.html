@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>iCraftDownloader</title>
+	<link rel="stylesheet" href="libs/element/index.css">
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<div id="app">
+		<el-popover
+			ref="dragtip"
+			placement="left"
+			title="提示"
+			width="200"
+			trigger="hover"
+			content="您还可以通过拖拽链接或文件至窗口直接添加下载目标哦~">
+		</el-popover>
+
+		<el-popover ref="settings" placement="left" width="400" v-model="inputs.visible">
+			<el-form ref="form" label-width="80px" size="mini">
+				<el-form-item label="代理模式">
+					<el-radio-group v-model="inputs.proxy.mode">
+						<el-radio border label="0">禁用</el-radio>
+						<el-radio border label="1" disabled>Socks5</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item v-if="inputs.proxy.mode === '1'" label="地址">
+					<el-input suffix-icon="el-icon-location" v-model="inputs.proxy.address"></el-input>
+				</el-form-item>
+				<el-form-item v-if="inputs.proxy.mode === '1'" label="端口">
+					<el-input-number v-model="inputs.proxy.port"></el-input-number>
+				</el-form-item>
+			</el-form>
+			<div style="text-align: right; margin: 0">
+				<el-button size="mini" type="text" @click="inputs.visible = false">取消</el-button>
+				<el-button size="mini" type="primary" @click="handleSave">保存</el-button>
+			</div>
+		</el-popover>
+
+		<el-button id="add" v-popover:dragtip type="primary" icon="el-icon-plus" @click="handleAddDownload" size="mini"></el-button>
+		<el-button id="settings" v-popover:settings icon="el-icon-setting" @click="handleSettings" size="mini"></el-button>
+		<el-tabs id="tab" type="border-card">
+			<el-tab-pane>
+				<span slot="label"><i class="el-icon-goods"></i> 已完成</span>
+				<el-card class="list-card box-card draggable" v-for="item in items" draggable="true" @dragstart.native="handleDragItem($event, item)">
+					<div class="list-card-header">
+						<img :src="item.image" draggable="false" />
+						<span>{{ item.name }}</span>
+					</div>
+				</el-card>
+			</el-tab-pane>
+
+			<el-tab-pane>
+				<span slot="label"><i class="el-icon-download"></i> 进行中</span>
+
+				<el-card class="list-card box-card" v-for="task in tasks">
+					<div class="list-card-header">
+						<img :src="task.content.image" draggable="false" />
+						<span>{{ task.content.name }}</span>
+						<el-button v-if="task.open && !task.hide" type="text" icon="el-icon-caret-top" @click="task.open = false">收起</el-button>
+						<el-button v-if="!task.open && !task.hide" type="text" icon="el-icon-caret-bottom" @click="task.open = true">展开</el-button>
+					</div>
+					<el-collapse-transition>
+						<div v-if="task.open && !task.hide" class="list-card-content-box">
+							<div class="list-card-content">
+								<el-progress :percentage="task.content.progress"></el-progress>
+							</div>
+						</div>
+					</el-collapse-transition>
+				</el-card>
+			</el-tab-pane>
+
+			<el-tab-pane>
+				<span slot="label"><i class="el-icon-info"></i> 关于</span>
+
+				<el-card class="box-card" style="margin-bottom: 10px">
+					<div slot="header">
+						<span>程序信息</span>
+					</div>
+
+					<el-card class="box-card">
+						<div class="text item">
+							<span>名称： iCraftDownloader</span>
+						</div>
+					</el-card>
+					<el-card class="box-card">
+						<div class="text item">
+							<span>版本： </span>
+							<el-tag>Beta.1.0.0</el-tag>
+						</div>
+					</el-card>
+				</el-card>
+
+
+				<el-card class="box-card" style="margin-bottom: 10px">
+					<div slot="header">
+						<span>贡献者信息</span>
+					</div>
+
+					<div class="clearfix">
+						<el-card class="contributor" :body-style="{ padding: '0px' }" style="float: left; margin: 5px"
+								 v-for="contributor in contributors">
+							<img :src="contributor.avatar" draggable="false">
+							<div style="padding: 14px;">
+								<span>{{ contributor.name }}</span>
+								<div class="bottom clearfix">
+									<time class="text">{{ contributor.text }}</time>
+									<el-button type="text" class="button" @click="openURL(contributor.url)">{{ contributor.button }}</el-button>
+								</div>
+							</div>
+						</el-card>
+					</div>
+				</el-card>
+			</el-tab-pane>
+		</el-tabs>
+	</div>
+
+	<script src="libs/vue.js"></script>
+	<script src="libs/element/index.js"></script>
+	<script src="index.js"></script>
+</body>
+</html>

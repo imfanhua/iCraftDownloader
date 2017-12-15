@@ -1,0 +1,124 @@
+* {
+	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+	user-select: none;
+}
+
+html, body, #app {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow: hidden;
+}
+
+button#add {
+	position: absolute;
+	z-index: 99;
+	float: right;
+	top: 5px;
+	right: 5px;
+}
+
+button#settings {
+	position: absolute;
+	z-index: 99;
+	float: right;
+	top: 5px;
+	right: 54px;
+}
+
+div#tab {
+	height: 100%;
+	border: none;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+div#tab .el-tabs__content {
+	overflow-y: auto;
+}
+
+.search-bar, .list-card {
+	margin-bottom: 10px;
+}
+
+.list-card .el-card__body {
+	padding: 0;
+}
+
+.list-card.draggable {
+	cursor: alias;
+}
+
+.list-card-header {
+	margin: 10px 20px 10px 10px;
+}
+
+.list-card-header span {
+	height: 24px;
+	line-height: 24px;
+}
+
+.list-card-header img {
+	width: 24px;
+	height: 24px;
+	border-radius: 12px;
+	border: 1px solid #eaeefb;
+	position: absolute;
+}
+
+.list-card-header span {
+	margin-left: 32px;
+}
+
+.list-card-header button {
+	padding: 0;
+	height: 24px;
+	float: right;
+}
+
+.list-card-content-box {
+	border-top: 1px solid #eaeefb;
+	background-color: #fafafa;
+	height: 100%;
+}
+
+.list-card-content {
+	margin: 2px 5px 5px 5px;
+}
+
+.contributor {
+	width: 192px;
+}
+
+.contributor img {
+	width: 192px;
+	height: 192px;
+	border-bottom: 1px solid #eaeefb;
+	display: block;
+}
+
+.contributor .text {
+	font-size: 13px;
+	color: #999;
+}
+
+.contributor .bottom {
+	margin-top: 13px;
+	line-height: 12px;
+}
+
+.contributor .button {
+	padding: 0;
+	float: right;
+}
+
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	content: "";
+}
+
+.clearfix:after {
+	clear: both
+}
