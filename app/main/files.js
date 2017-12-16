@@ -54,6 +54,15 @@ files.views.icons.icon['win32'] = files.views.icons.icon.root + '.ico';
 files.views.icons.icon['darwin'] = files.views.icons.icon.root + '.png';
 files.views.icons.icon['default'] = files.views.icons.icon.root + '.png';
 
+files.main = {
+	root: path.join(files.app, 'main'),
+};
+
+files.templates = {
+	root: path.join(files.main.root, 'templates'),
+	file (name) { return path.join(files.templates.root, `${name}.zip`); },
+};
+
 files.init = () => {
 	files.mkdir(files.caches.root);
 

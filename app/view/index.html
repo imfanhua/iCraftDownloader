@@ -43,10 +43,12 @@
 		<el-tabs id="tab" type="border-card">
 			<el-tab-pane>
 				<span slot="label"><i class="el-icon-goods"></i> 已完成</span>
+
 				<el-card class="list-card box-card draggable" v-for="item in items" draggable="true" @dragstart.native="handleDragItem($event, item)">
 					<div class="list-card-header">
 						<img :src="item.image" draggable="false" />
 						<span>{{ item.name }}</span>
+						<el-button v-if="item.button" type="text" @click="handleClick(item)" draggable="false">MultiMC</el-button>
 					</div>
 				</el-card>
 			</el-tab-pane>
@@ -87,7 +89,7 @@
 					<el-card class="box-card">
 						<div class="text item">
 							<span>版本： </span>
-							<el-tag>Beta.1.0.0</el-tag>
+							<el-tag>{{version}}</el-tag>
 						</div>
 					</el-card>
 				</el-card>

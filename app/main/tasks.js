@@ -54,6 +54,6 @@ const writeInfo = (id, file, info) => {
 };
 
 module.exports = {
-	create, exists, getInfo, writeInfo,
+	create, exists, getInfo, writeInfo, fullID,
 	toFile (id, file) { return files.caches.file(fullID(id, file)); }
 };

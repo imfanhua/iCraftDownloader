@@ -6,6 +6,7 @@ files.init();
 
 const window = require('./windows');
 
+app.makeSingleInstance(() => window.focus());
 app.on('window-all-closed', () => app.quit());
 app.on('quit', () => files.init());
 
@@ -28,14 +29,15 @@ modpacks
 .on('task:done', (id, mod) => window.send(mod ? 'task:remove' : 'task:hide', id))
 .on('pack:done', modpack => {
 	window.send('task:remove', modpack.fullID);
-	window.send('done', '完成', `整合包 [${modpack.info.title}] 已经处理完成~`);
+	window.send('done', '完成', `整合包 [${modpack.info.title}] 已处理完成~`);
 	window.send('item:add', {
 		image: modpack.info.image,
-		name: `${modpack.info.title} (${modpack.info.file})`,
-		file: files.packs.file(modpack.id, modpack.file),
+		name: modpack.info.title,
+		file: modpack.path,
 		filename: modpack.info.file,
+		button: true,
 	});
-});
+}).on('error', error => console.log(error));
 
 ipcMain.on("view-download", (event, arg) => {
 	window.send('info', "开始分析目标");
@@ -50,4 +52,21 @@ ipcMain.on("view-drag", (event, arg) => {
 	} catch (error) {
 		console.log(error);
 	}
+});
+
+const converts = require('./converts');
+
+ipcMain.on("view-clicked", (event, arg) => {
+	window.send('success', `开始转换整合包 [${arg.name}] 至 [MultiMC] 格式`);
+
+	converts.convert(arg.file, converts.MultiMC)
+	.then(path => {
+		window.send('done', '完成', `整合包 [${arg.name}] 已成功转换为 [MultiMC] 格式~`);
+		arg.name += ' [MultiMC]';
+		arg.file = path;
+		arg.filename = arg.filename.substring(0, arg.filename.length - 4) + "-multimc.zip";
+		arg.button = false;
+		window.send('item:add', arg);
+	})
+	.catch(error => console.log(error));
 });

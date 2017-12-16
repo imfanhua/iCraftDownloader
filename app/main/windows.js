@@ -19,4 +19,10 @@ const sendMessage = (...args) => {
 	if (window != null) window.webContents.send(...args);
 };
 
-module.exports = { send: sendMessage };
+const focus = () => {
+	if (window == null) return;
+	if (window.isMinimized()) window.restore();
+	window.focus();
+};
+
+module.exports = { focus, send: sendMessage };

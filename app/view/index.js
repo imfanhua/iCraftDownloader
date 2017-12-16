@@ -4,6 +4,7 @@ const app = new Vue({
 	el: '#app',
 	data: function() {
 		return {
+			version: 'Beta.1.0.1',
 			inputs: {
 				visible: false,
 				proxy: {
@@ -50,9 +51,12 @@ const app = new Vue({
 			let { mode, address, port } = this.inputs.proxy;
 			this.settings.proxy = { mode, address, port };
 			saveSettings(this.settings);
+		}, handleClick(item) {
+			item.button = false;
+			clicked(item);
 		}, handleDragItem(event, item) {
 			event.preventDefault();
-			drag(item.file, item.filename)
+			drag(item.file, item.filename);
 		}, openURL(url) {
 			openExternal(url);
 		}
@@ -95,6 +99,7 @@ const removeTask = (id) => {
 const { ipcRenderer } = require('electron');
 const download = (target) => ipcRenderer.send("view-download", target);
 const drag = (file, filename) => ipcRenderer.send("view-drag", { file, filename });
+const clicked = (item) => ipcRenderer.send("view-clicked", item);
 const needSettings = () => ipcRenderer.send("view-settings");
 const saveSettings = (settings) => ipcRenderer.send("view-settings-save", settings);
 

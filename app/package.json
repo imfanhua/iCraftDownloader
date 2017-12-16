@@ -1,6 +1,6 @@
 {
 	"name": "iCraftDownloader",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "./main/index.js",
 	"devDependencies": {
 		"electron-packager": "10.1.0"
@@ -15,6 +15,7 @@
 	"scripts": {
 		"start": "electron ./main/index.js",
 		"build:win": "electron-packager . iCraftDownloader --all --out ../built --version 1.7.9 --icon=./view/libs/imgs/icons/icon --overwrite --asar --prune --buildVersion 1.0.0.0 --appCopyright \"Copyright (C) 2017 FanHua. All Rights Reserved.\"",
-		"build:osx": "electron-packager . iCraftDownloader --platform=darwin --arch=x64 --out ../built --version 1.7.9 --icon=./view/libs/imgs/icons/icon --overwrite --asar --prune --buildVersion 1.0.0.0 --appCopyright \"Copyright (C) 2017 FanHua. All Rights Reserved.\""
+		"build:osx": "electron-packager . iCraftDownloader --platform=darwin --arch=x64 --out ../built --version 1.7.9 --icon=./view/libs/imgs/icons/icon --overwrite --asar --prune --buildVersion 1.0.0.0 --appCopyright \"Copyright (C) 2017 FanHua. All Rights Reserved.\"",
+		"build:mas": "electron-packager . iCraftDownloader --platform=mas --arch=x64 --out ../built --version 1.7.9 --icon=./view/libs/imgs/icons/icon --overwrite --asar --prune --buildVersion 1.0.0.0 --appCopyright \"Copyright (C) 2017 FanHua. All Rights Reserved.\""
 	}
 }
