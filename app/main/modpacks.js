@@ -35,8 +35,10 @@ const task = (id, file, info) => {
 			tasks.writeInfo(id, file, info);
 			checkFile(object.to)
 			.then(mods => {
-				events.emit('task:done', object.id, !mods);
-				if (mods) modpacks.push({id: id, file: file, fullID: object.id, info: info, mods: mods});
+				if (mods) {
+					events.emit('task:done:modpack', object.id);
+					modpacks.push({id: id, file: file, fullID: object.id, info: info, mods: mods});
+				} else events.emit('task:done:mod', object.id);
 
 				checkPacks();
 			});
@@ -65,8 +67,7 @@ const checkFile = (file) =>
 
 			return Promise.resolve(mods);
 		});
-	})
-	.catch(error => events.emit('error', error));
+	}).catch(() => Promise.resolve(false));
 
 const startWhen = (timeout, id, file) => setTimeout(() => startTask(id, file).catch(error => console.log(error)), timeout);
 

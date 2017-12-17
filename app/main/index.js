@@ -2,11 +2,11 @@ require('./requires');
 
 const fs = require('fs');
 
+const window = require('./windows');
+if (app.makeSingleInstance(() => window.focus())) return app.quit();
+
 files.init();
 
-const window = require('./windows');
-
-app.makeSingleInstance(() => window.focus());
 app.on('window-all-closed', () => app.quit());
 app.on('quit', () => files.init());
 
@@ -26,7 +26,8 @@ modpacks
 	});
 })
 .on('task:update', (id, progress) => window.send('task:update', id, progress))
-.on('task:done', (id, mod) => window.send(mod ? 'task:remove' : 'task:hide', id))
+.on('task:done:mod', id => window.send('task:remove', id))
+.on('task:done:modpack', id => window.send('task:hide', id))
 .on('pack:done', modpack => {
 	window.send('task:remove', modpack.fullID);
 	window.send('done', '完成', `整合包 [${modpack.info.title}] 已处理完成~`);

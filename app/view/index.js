@@ -4,7 +4,7 @@ const app = new Vue({
 	el: '#app',
 	data: function() {
 		return {
-			version: 'Beta.1.0.1',
+			version: 'Beta.1.0.2',
 			inputs: {
 				visible: false,
 				proxy: {

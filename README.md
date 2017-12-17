@@ -1,6 +1,6 @@
 # iCraftDownloader
 
-基于Electron开发的Curse整合包下载器
+iCraftDownloader 是一款基于 Electron 开发的 Curse 整合包 下载器.
 
 ## License
 

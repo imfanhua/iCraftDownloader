@@ -85,6 +85,7 @@ const download = (url, to, pre) => {
 
 	setImmediate(() => {
 		co(function *() {
+			if (object.closed) return false;
 			let response = yield fetch(url);
 			if (object.closed) return false;
 			if (response.status !== 200) throw new Error(`Network error... (Status: ${response.status})`);
@@ -120,10 +121,10 @@ const download = (url, to, pre) => {
 				object.done = true;
 				object.emit('done', object);
 			});
-		}).catch((error) => {
-			object.emit('error', error);
-
+		}).catch(error => {
 			try {
+				object.emit('error', error);
+
 				object.close();
 			} catch(error) {}
 		});
